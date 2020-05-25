@@ -8,6 +8,8 @@ We aim to solve all exercises from [Practical Reverse Engineering](https://www.w
     - [Exercise page 11](chapter-1-x86-and-x64/exercise-page-11.md)
     - [Exercises page 17](chapter-1-x86-and-x64/exercises-page-17.md)
     - [Exercises page 35](chapter-1-x86-and-x64/exercises-page-35.md)
+        - [KeInitializeApc](chapter-1-x86-and-x64/exercises-page-35-KeInitializeApc.md)
+        - [KeInitializeDpc](chapter-1-x86-and-x64/exercises-page-35-KeInitializeDpc.md)
 
 ## Supporting material
 

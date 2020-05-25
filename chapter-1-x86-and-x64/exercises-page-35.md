@@ -121,3 +121,8 @@ _In some of the assembly listings, the function name has a @ prefix followed by 
 
 - The decoration is referred as: __mangling__, that is a scheme used in Microsoft's Visual C++ series of compilers. It provides a way of encoding the name and additional information about a function, structure, class or another datatype in order to pass more semantic information from the Microsoft Visual C++ compiler to its linker.
 - In the stdcall and fastcall mangling schemes, the function is encoded as _name@X and @name@X respectively, where X is the number of bytes, in decimal, of the argument(s) in the parameter list (including those passed in registers, for fastcall). In the case of cdecl, the function name is merely prefixed by an underscore.
+
+
+_Implement the following functions in x86 assembly: strlen, strchr, memcpy, memset, strcmp, strset._
+
+## strlen

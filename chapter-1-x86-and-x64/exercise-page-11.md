@@ -25,4 +25,4 @@ _Next, explain what this snippet does._
 
 - Read comments to understand each line.
 - This snippet is similar to calling:
-`memset( dest_buffer, init_value, strlen(dest_buffer) );` Where *dest_buffer* is ECX+0 and *init_value* is ECX+C.
+`memset( dest_buffer, init_value, strlen(dest_buffer) );` Where *dest_buffer* is ECX+8 and *init_value* is ECX+C.
