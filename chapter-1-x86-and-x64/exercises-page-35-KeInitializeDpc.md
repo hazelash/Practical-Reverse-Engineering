@@ -25,3 +25,14 @@ VOID KeInitializeDpc(PRKDPC Dpc, PKDEFERRED_ROUTINE DeferredRoutine, PVOID Defer
    Dpc->DeferredContext = DeferredContext;
 }
 ```
+
+- why TargetInfoAsUlong is specifically set to a value of 0x113 ? Looking back at the struct definition in WinDBG, we can see that `TargetInfoAsUlong` is:
+```
+dll!_KDPC
+   +0x000 TargetInfoAsUlong : Uint4B
+      +0x000 Type             : UChar
+      +0x001 Importance       : UChar
+      +0x002 Number           : Uint2B
+```      
+
+- This leaves us with Type to 0x13, Importance to 0x1 and Number to 0x0. 
