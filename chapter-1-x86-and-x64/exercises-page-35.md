@@ -122,7 +122,158 @@ _In some of the assembly listings, the function name has a @ prefix followed by 
 - The decoration is referred as: __mangling__, that is a scheme used in Microsoft's Visual C++ series of compilers. It provides a way of encoding the name and additional information about a function, structure, class or another datatype in order to pass more semantic information from the Microsoft Visual C++ compiler to its linker.
 - In the stdcall and fastcall mangling schemes, the function is encoded as _name@X and @name@X respectively, where X is the number of bytes, in decimal, of the argument(s) in the parameter list (including those passed in registers, for fastcall). In the case of cdecl, the function name is merely prefixed by an underscore.
 
-
 _Implement the following functions in x86 assembly: strlen, strchr, memcpy, memset, strcmp, strset._
 
 ## strlen
+
+```
+_Strlen Proc Src:Ptr Byte
+	Xor Eax, Eax
+	Mov Esi, [Src]
+	cmp esi, 0
+	je exit
+@@:
+	Mov Cl, Byte Ptr [Esi + Eax]
+	Inc Eax
+	Cmp Cl, 0
+	Jnz @B
+	Dec Eax
+exit:
+	Ret
+_Strlen EndP
+```
+
+- Or:
+
+```
+_Strlen2 Proc Src :Ptr Byte
+	Xor Eax, Eax
+	Mov Edi, [Src]
+	cmp Edi, 0		; check null pointer
+	jz exit
+	Mov Edx, Edi
+	Mov Ecx, -1
+	Repne Scasb
+	Sub Edi, Edx 	; we can also do a add ecx, 2
+	Dec Edi			; then neg ecx
+	Mov Eax, Edi
+exit:
+	Ret
+_Strlen2 EndP
+```
+
+- There is a faster implementation of this which you would find in ntdll!strlen or glibc implementation.
+- It takes a string one dword at a time rather than one byte at a time and then performs some strange maths on it which will turn all 0s in a string into 0x80s and all other characters into 0x00s. For example (x86) version:
+	- A word from our string: 00474d43
+	- Gets turned into:       80000000
+- Here is its disassembly:
+```
+.text:4B2F9000 _strlen         proc near               ; DATA XREF: .text:4B283505↑o
+.text:4B2F9000                                         ; .text:off_4B3873D8↓o
+.text:4B2F9000
+.text:4B2F9000 Str             = dword ptr  4
+.text:4B2F9000
+.text:4B2F9000                 mov     ecx, [esp+Str]
+.text:4B2F9004                 test    ecx, 3
+.text:4B2F900A                 jz      short loc_4B2F9030
+.text:4B2F900C
+.text:4B2F900C loc_4B2F900C:                           ; CODE XREF: _strlen+1B↓j
+.text:4B2F900C                 mov     al, [ecx]
+.text:4B2F900E                 add     ecx, 1
+.text:4B2F9011                 test    al, al
+.text:4B2F9013                 jz      short loc_4B2F9063
+.text:4B2F9015                 test    ecx, 3
+.text:4B2F901B                 jnz     short loc_4B2F900C
+.text:4B2F901D                 add     eax, 0
+.text:4B2F9022                 lea     esp, [esp+0]
+.text:4B2F9029                 lea     esp, [esp+0]
+.text:4B2F9030
+.text:4B2F9030 loc_4B2F9030:                           ; CODE XREF: _strlen+A↑j
+.text:4B2F9030                                         ; _strlen+46↓j ...
+.text:4B2F9030                 mov     eax, [ecx]
+.text:4B2F9032                 mov     edx, 7EFEFEFFh
+.text:4B2F9037                 add     edx, eax
+.text:4B2F9039                 xor     eax, 0FFFFFFFFh
+.text:4B2F903C                 xor     eax, edx
+.text:4B2F903E                 add     ecx, 4
+.text:4B2F9041                 test    eax, 81010100h
+.text:4B2F9046                 jz      short loc_4B2F9030
+.text:4B2F9048                 mov     eax, [ecx-4]
+.text:4B2F904B                 test    al, al
+.text:4B2F904D                 jz      short loc_4B2F9081
+.text:4B2F904F                 test    ah, ah
+.text:4B2F9051                 jz      short loc_4B2F9077
+.text:4B2F9053                 test    eax, 0FF0000h
+.text:4B2F9058                 jz      short loc_4B2F906D
+.text:4B2F905A                 test    eax, 0FF000000h
+.text:4B2F905F                 jz      short loc_4B2F9063
+.text:4B2F9061                 jmp     short loc_4B2F9030
+.text:4B2F9063 ; ---------------------------------------------------------------------------
+.text:4B2F9063
+.text:4B2F9063 loc_4B2F9063:                           ; CODE XREF: _strlen+13↑j
+.text:4B2F9063                                         ; _strlen+5F↑j
+.text:4B2F9063                 lea     eax, [ecx-1]
+.text:4B2F9066                 mov     ecx, [esp+Str]
+.text:4B2F906A                 sub     eax, ecx
+.text:4B2F906C                 retn
+.text:4B2F906D ; ---------------------------------------------------------------------------
+.text:4B2F906D
+.text:4B2F906D loc_4B2F906D:                           ; CODE XREF: _strlen+58↑j
+.text:4B2F906D                 lea     eax, [ecx-2]
+.text:4B2F9070                 mov     ecx, [esp+Str]
+.text:4B2F9074                 sub     eax, ecx
+.text:4B2F9076                 retn
+```
+
+## strchr
+
+```
+_StrChr Proc Src:Ptr Byte, Value:Byte
+	Cld
+	Xor Eax, Eax
+	Mov Edi, [Src]
+	Cmp Edi, 0 				; check for NULL ptr
+	Je exit
+
+	Mov Bl, Value
+	Xor Ecx, Ecx
+@@:
+	Mov Dl, Byte Ptr [Edi]
+	Cmp Dl, Bl 				; did we find our char
+	Je exit
+	Scasb 					; did we reach the end of the string
+	Jne @B
+	mov Edi, 0 				; char not found, return NULL
+exit:
+	Mov Eax, Edi 			; set eax to first occurance
+	Ret
+```
+
+## memcpy
+
+```
+_MemCpy Proc Dest:Ptr Byte, Src:Ptr Byte, Len:DWord
+	Cld
+    Mov Edi, [Dest]
+    Mov Eax, Edi                ; return original destination pointer
+    Mov Esi, [Src]
+    Mov Ecx, Len
+	Rep Movsb
+
+	; Shr Ecx, 2				; divide by 4
+    ; rep movsd					; instead of doing byte by byte, we do it by DW
+
+    ; mov ecx, [ln]
+    ; and ecx, 3     			; a % 4 = a & ( 4 - 1 )
+    ; Rep Movsb					; copy the left over bytes
+    ret
+_MemCpy EndP
+```
+
+## memset
+
+
+## strcmp
+
+
+## strset
