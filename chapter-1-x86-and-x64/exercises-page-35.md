@@ -272,8 +272,78 @@ _MemCpy EndP
 
 ## memset
 
+```
+_MemSet Proc Buffer:Ptr Byte, Value:Byte, Len:DWord
+	Cld
+	Xor Eax, Eax
+	Mov Ecx, Len
+	Mov Al, Value
+	Mov Edi, [Buffer]
+	Rep Stosb
+	Ret
+_MemSet EndP
+```
 
 ## strcmp
 
+```
+_StrCmp Proc X:Ptr Byte, Y:Ptr Byte
+	Xor Ecx, Ecx
+	@@:
+	Mov Bl, Byte Ptr [Str1 + Ecx]
+	Inc Ecx
+	Cmp Bl, 0
+	Jnz @B
+	Dec Ecx
+
+	Cld
+    Mov Esi, [X]
+    Mov Edi, [Y]
+	Repe Cmpsb
+	Je equal
+	Dec Esi
+	Dec Edi
+	Mov Cl, Byte Ptr [Esi]
+	Mov Dl, Byte Ptr [Edi]
+	Sub Cl, Dl
+
+equal:
+	Mov Eax, Ecx
+	Ret
+_StrCmp EndP
+```
+
 
 ## strset
+
+```
+_StrSet Proc MyStr:Ptr Byte, Value:Byte, n:DWord
+    Mov Esi, [MyStr]    ; return original destination pointer
+
+	; strlen
+	Xor Ecx, Ecx
+	@@:
+	Mov Bl, Byte Ptr [Str1 + Ecx]
+	Inc Ecx
+	Cmp Bl, 0
+	Jnz @B
+	Dec Ecx
+
+	; If n is greater than the length of string,
+	; the length of string is used in place of n.
+	Cmp Ecx, n
+	Jge good
+	Mov n, Ecx
+
+good:
+	Cld
+	Xor Eax, Eax
+	Mov Ecx, n
+	Mov Al, Value
+	Mov Edi, [MyStr]
+	Rep Stosb
+
+	Mov Eax, Esi
+	Ret
+_StrSet EndP
+```
