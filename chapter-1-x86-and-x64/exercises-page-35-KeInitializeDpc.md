@@ -35,4 +35,4 @@ dll!_KDPC
       +0x002 Number           : Uint2B
 ```      
 
-- This leaves us with Type to 0x13, Importance to 0x1 and Number to 0x0. 
+- This leaves us with Type to 0x113, Importance to 0x0 and Number to 0x0. 
