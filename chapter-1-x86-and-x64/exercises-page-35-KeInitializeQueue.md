@@ -3,6 +3,44 @@
 _Decompile the following kernel routine in Windows:_
 
 ```
+.text:000000014002BB40 ; =============== S U B R O U T I N E =======================================
+.text:000000014002BB40
+.text:000000014002BB40
+.text:000000014002BB40                 public KeInitializeQueue
+.text:000000014002BB40 KeInitializeQueue proc near             ; CODE XREF: PopFxRegisterPluginEx+1B4↓p
+.text:000000014002BB40                                         ; NtCreateIoCompletion+9E↓p ...
+.text:000000014002BB40                 push    rbx
+.text:000000014002BB42                 sub     rsp, 20h
+.text:000000014002BB46                 mov     rbx, rcx
+.text:000000014002BB49                 mov     byte ptr [rcx], 4
+.text:000000014002BB4C                 xor     ecx, ecx
+.text:000000014002BB4E                 mov     word ptr [rbx+1], 1000h
+.text:000000014002BB54                 lea     rax, [rbx+8]
+.text:000000014002BB58                 mov     [rbx+4], ecx
+.text:000000014002BB5B                 mov     [rax+8], rax
+.text:000000014002BB5F                 mov     [rax], rax
+.text:000000014002BB62                 lea     rax, [rbx+18h]
+.text:000000014002BB66                 mov     [rax+8], rax
+.text:000000014002BB6A                 mov     [rax], rax
+.text:000000014002BB6D                 lea     rax, [rbx+30h]
+.text:000000014002BB71                 mov     [rax+8], rax
+.text:000000014002BB75                 mov     [rax], rax
+.text:000000014002BB78                 mov     [rbx+28h], ecx
+.text:000000014002BB7B                 test    edx, edx
+.text:000000014002BB7D                 jnz     short loc_14002BB8B
+.text:000000014002BB7F                 mov     ecx, 0FFFFh
+.text:000000014002BB84                 call    KeQueryActiveProcessorCountEx
+.text:000000014002BB89                 mov     edx, eax
+.text:000000014002BB8B
+.text:000000014002BB8B loc_14002BB8B:                          ; CODE XREF: KeInitializeQueue+3D↑j
+.text:000000014002BB8B                 mov     [rbx+2Ch], edx
+.text:000000014002BB8E                 add     rsp, 20h
+.text:000000014002BB92                 pop     rbx
+.text:000000014002BB93                 retn
+.text:000000014002BB93 KeInitializeQueue endp
+```
+
+```
 ntdll!_KQUEUE
    +0x000 Header           : _DISPATCHER_HEADER
    +0x018 EntryListHead    : _LIST_ENTRY
@@ -70,8 +108,9 @@ ntdll!_DISPATCHER_HEADER
    +0x003 MutantReserved   : UChar
    +0x004 SignalState      : Int4B
    +0x008 WaitListHead     : _LIST_ENTRY
+```
 
-
+```
 VOID KeInitializeQueue(PRKQUEUE Queue, ULONG Count) {
 
     LIST_ENTRY Entry, Head; // sub     rsp, 28h
