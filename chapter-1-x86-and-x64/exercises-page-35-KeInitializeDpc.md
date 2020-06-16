@@ -3,6 +3,21 @@
 _Decompile the following kernel routine in Windows:_
 
 ```
+text:000000014000AD80 ; void __stdcall KeInitializeDpc(PRKDPC Dpc, PKDEFERRED_ROUTINE DeferredRoutine, PVOID DeferredContext)
+.text:000000014000AD80                 public KeInitializeDpc
+.text:000000014000AD80 KeInitializeDpc proc near               ; CODE XREF: PopEndMirroring+14D↓p
+.text:000000014000AD80                                         ; PfpStartLoggingHardFaultEvents+9B↓p ...
+.text:000000014000AD80                 xor     eax, eax
+.text:000000014000AD82                 mov     dword ptr [rcx], 113h
+.text:000000014000AD88                 mov     [rcx+38h], rax
+.text:000000014000AD8C                 mov     [rcx+10h], rax
+.text:000000014000AD90                 mov     [rcx+18h], rdx
+.text:000000014000AD94                 mov     [rcx+20h], r8
+.text:000000014000AD98                 retn
+.text:000000014000AD98 KeInitializeDpc endp
+```
+
+```
 dll!_KDPC
    +0x000 TargetInfoAsUlong : Uint4B
    +0x000 Type             : UChar
