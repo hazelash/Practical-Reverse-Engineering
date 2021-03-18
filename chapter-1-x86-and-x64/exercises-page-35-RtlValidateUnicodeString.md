@@ -2,7 +2,7 @@
 
 _Decompile the following kernel routine in Windows:_
 
-```assembly
+```asm
 .text:000000014013CC30 RtlValidateUnicodeString proc near      ; CODE XREF: RtlDuplicateUnicodeString+57↓p
 .text:000000014013CC30                 xor     eax, eax
 .text:000000014013CC32                 test    ecx, ecx

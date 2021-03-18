@@ -2,7 +2,7 @@
 
 _Decompile the following kernel routine in Windows:_
 
-```
+```asm
 .text:0000000140138420 ; =============== S U B R O U T I N E =======================================
 .text:0000000140138420
 .text:0000000140138420
@@ -52,7 +52,7 @@ _Decompile the following kernel routine in Windows:_
 
 - At the first attempt, when we decompiled this function, we did a manual asm to C translation for the following asm instructions:
 
-```
+```asm
   neg     rax
 .text:0000000140138450                 mov     [rcx+20h], r9
 .text:0000000140138454                 sbb     rcx, rcx
@@ -70,7 +70,7 @@ _Decompile the following kernel routine in Windows:_
 - neg: 0 - reg, CF is affected: if(Destination == 0) CF = 0; else CF = 1.
 
 
-```
+```c
 // From ReactOS
 typedef enum _MODE {
     KernelMode,
@@ -137,8 +137,9 @@ VOID KeInitializeApc(
         Apc->NormalContext = NULL;
     } else {
         Apc->ApcMode = KernelMode;
-        Apc->NormalContext =  NormalContext;
+        Apc->NormalContext = NormalContext;
     }
 
     Apc->Inserted = 0;
 }
+```

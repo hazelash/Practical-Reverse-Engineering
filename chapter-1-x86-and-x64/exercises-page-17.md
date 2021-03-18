@@ -30,7 +30,7 @@ _Come up with at least two code sequences to set EIP to 0xAABBCCDD_
 
 _In the example function, addme, what would happen if the stack pointer were not properly restored before executing RET?_
 
-```
+```asm
 01: 004113A0 55 push ebp
 02: 004113A1 8B EC mov ebp, esp
 03: ...
@@ -44,7 +44,8 @@ _In the example function, addme, what would happen if the stack pointer were not
 ```
 
 In general, if we omit the `mov esp, ebp`, ebp, which holds the stack frame of the function that called addme(), will be set to an incorrect value and we will also end up jumping in some invalid memory address during ret. In this specific example, nothing would happen, because their was no stack operations between the prologue and epiloque. Try it yourself, write a quick C function that add two numbers, the compiler would not even include the `mov esp, ebp`.
-```
+
+```c
 int addme (int x, int y) {
 	return x + y;
 }
@@ -54,7 +55,7 @@ _In all of the calling conventions explained, the return value is stored in a 32
 
 _Write a program to experiment and evaluate your answer._
 
-```
+```c
 long long MyFunc () {
 	long long var = 0xffffffffffffffff;
 	return var;
@@ -70,7 +71,7 @@ int main()
 
 - Compile this using MS compiler would give the following disassm (x86 binary + disabling optimizations):
 
-```
+```asm
 push ebp
 mov ebp,esp
 sub esp,8
@@ -89,7 +90,7 @@ _Does the mechanism change from compiler to compiler?_
 
 - gcc disassm:
 
-```
+```asm
 push ebp
 mov ebp,esp
 sub esp,10

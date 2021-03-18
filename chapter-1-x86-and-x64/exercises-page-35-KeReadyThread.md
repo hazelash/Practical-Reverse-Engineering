@@ -2,7 +2,7 @@
 
 _Decompile the following kernel routine in Windows:_
 
-```
+```asm
 .text:00000001400FFEDC KeReadyThread   proc near               ; CODE XREF: PspInsertThread+4B0↓p
 .text:00000001400FFEDC                                         ; DATA XREF: .rdata:00000001403ECED0↓o ...
 .text:00000001400FFEDC
@@ -44,7 +44,7 @@ _Decompile the following kernel routine in Windows:_
 .text:00000001400FFF2B KeReadyThread   endp
 ```
 
-```
+```c
 ntdll!_KTHREAD
    +0x000 Header           : _DISPATCHER_HEADER
    +0x018 SListFaultAddress : Ptr64 Void
@@ -168,7 +168,7 @@ ntdll!_KPCR
    +0x180 Prcb             : _KPRCB
 ```
 
-```
+```c
 VOID KeReadyThread (IN PKTHREAD Thread) {
     
     KIRQL OldIrql;
@@ -193,7 +193,7 @@ VOID KeReadyThread (IN PKTHREAD Thread) {
 - In Windows, cr8 hols the current IRQL, so `mov rax, cr8` is like calling `KeGetCurrentIrql()`
 - `#define DISPATCH_LEVEL 2  // Dispatcher level`
 
-```
+```c
 KIRQL KeRaiseIrqlToDpcLevel(KIRQL NewIrql) {
 
     KIRQL OldIrql;
