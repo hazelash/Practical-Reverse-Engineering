@@ -2,7 +2,7 @@
 
 _Decompile the following kernel routine in Windows:_
 
-```
+```asm
 .text:0000000140003200 ; =============== S U B R O U T I N E =======================================
 .text:0000000140003200
 .text:0000000140003200
@@ -39,7 +39,7 @@ _Decompile the following kernel routine in Windows:_
 .text:0000000140003231 KxWaitForLockChainValid endp
 ```
 
-```
+```c
 ntdll!_KSPIN_LOCK_QUEUE
    +0x000 Next             : Ptr64 _KSPIN_LOCK_QUEUE
    +0x008 Lock             : Ptr64 Uint8B
@@ -55,7 +55,7 @@ ntdll!_KSPIN_LOCK_QUEUE
 - [How does x86 pause instruction work in spinlock *and* can it be used in other scenarios?](https://stackoverflow.com/questions/4725676/how-does-x86-pause-instruction-work-in-spinlock-and-can-it-be-used-in-other-sc#:~:text=4%20Answers&text=PAUSE%20notifies%20the%20CPU%20that,some%20time%20to%20save%20power.)
 
 
-```
+```c
 PKSPIN_LOCK_QUEUE KxWaitForLockChainValid(__INOUT PKSPIN_LOCK_QUEUE LockQueue) {
 
     PKSPIN_LOCK_QUEUE NextQueue;

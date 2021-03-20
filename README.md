@@ -21,7 +21,7 @@ We aim to solve all exercises from [Practical Reverse Engineering](https://www.w
 
 - [Samples](material/malware_samples.zip): The following are the real-life malware samples used in the book’s walk-throughs
 and exercises. They are live malware and may __cause damage__ to your computer, if not properly handled. Please exercise caution in storing and analyzing them. __Password (infected)__.
-- [ntoskrnl](material/ntoskrnl.exe): The kernel image used while reversing Windows kernel routines. It belongs to Windows 10 x64.
+- [ntoskrnl](material/ntoskrnl.exe): The kernel image used while reversing Windows kernel routines. It belongs to Windows 10 x64 10.0.18362.836 (WinBuild.160101.0800).
 
 ## Authors
 

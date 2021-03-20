@@ -2,7 +2,7 @@
 
 _This function uses a combination SCAS and STOS to do its work. First, explain what is the type of the [EBP+8] and [EBP+C] in line 1 and 8, respectively. Next, explain what this snippet does._
 
-```
+```asm
 01: 8B 7D 08 	mov edi, [ebp+8] // *(ebp+8) = edi
 02: 8B D7 		mov edx, edi // edx = edi
 03: 33 C0 		xor eax, eax // eax = 0
@@ -17,6 +17,7 @@ _This function uses a combination SCAS and STOS to do its work. First, explain w
 ```
 
 _What is the type of [EBP+8] and [EBP+C]?_
+
 - type of [EBP+8] = char*
 - type of [EBP+C] = char
 - [ebp+8] is copied to EDI to be prepared for the `rep stosb`, this indicates that [ebp+8] is the destination string that will be used in memset(), and the [ebp+0xC] is the value we want to initialize the array of bytes to.

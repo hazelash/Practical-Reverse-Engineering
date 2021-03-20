@@ -2,7 +2,7 @@
 
 _Decompile the following kernel routine in Windows:_
 
-```
+```asm
 text:000000014000AD80 ; void __stdcall KeInitializeDpc(PRKDPC Dpc, PKDEFERRED_ROUTINE DeferredRoutine, PVOID DeferredContext)
 .text:000000014000AD80                 public KeInitializeDpc
 .text:000000014000AD80 KeInitializeDpc proc near               ; CODE XREF: PopEndMirroring+14D↓p
@@ -17,7 +17,7 @@ text:000000014000AD80 ; void __stdcall KeInitializeDpc(PRKDPC Dpc, PKDEFERRED_RO
 .text:000000014000AD98 KeInitializeDpc endp
 ```
 
-```
+```c
 dll!_KDPC
    +0x000 TargetInfoAsUlong : Uint4B
    +0x000 Type             : UChar
@@ -42,7 +42,7 @@ VOID KeInitializeDpc(PRKDPC Dpc, PKDEFERRED_ROUTINE DeferredRoutine, PVOID Defer
 ```
 
 - why TargetInfoAsUlong is specifically set to a value of 0x113 ? Looking back at the struct definition in WinDBG, we can see that `TargetInfoAsUlong` is:
-```
+```c
 dll!_KDPC
    +0x000 TargetInfoAsUlong : Uint4B
       +0x000 Type             : UChar

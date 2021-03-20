@@ -53,7 +53,7 @@ _Repeat the walk-through by yourself. Draw the stack layout, including parameter
 
 _In the example walk-through, we did a nearly one-to-one translation of the assembly code to C. As an exercise, re-decompile this whole function so that it looks more natural._
 
-```
+```c
 typedef struct _IDTR
 {
    DWORD base;
@@ -126,7 +126,7 @@ _Implement the following functions in x86 assembly: strlen, strchr, memcpy, mems
 
 ## strlen
 
-```
+```asm
 _Strlen Proc Src:Ptr Byte
 	Xor Eax, Eax
 	Mov Esi, [Src]
@@ -145,7 +145,7 @@ _Strlen EndP
 
 - Or:
 
-```
+```asm
 _Strlen2 Proc Src :Ptr Byte
 	Xor Eax, Eax
 	Mov Edi, [Src]
@@ -167,7 +167,8 @@ _Strlen2 EndP
 	- A word from our string: 00474d43
 	- Gets turned into:       80000000
 - Here is its disassembly:
-```
+
+```asm
 .text:4B2F9000 _strlen         proc near               ; DATA XREF: .text:4B283505↑o
 .text:4B2F9000                                         ; .text:off_4B3873D8↓o
 .text:4B2F9000
@@ -227,7 +228,7 @@ _Strlen2 EndP
 
 ## strchr
 
-```
+```asm
 _StrChr Proc Src:Ptr Byte, Value:Byte
 	Cld
 	Xor Eax, Eax
@@ -251,7 +252,7 @@ exit:
 
 ## memcpy
 
-```
+```asm
 _MemCpy Proc Dest:Ptr Byte, Src:Ptr Byte, Len:DWord
 	Cld
     Mov Edi, [Dest]
@@ -272,7 +273,7 @@ _MemCpy EndP
 
 ## memset
 
-```
+```asm
 _MemSet Proc Buffer:Ptr Byte, Value:Byte, Len:DWord
 	Cld
 	Xor Eax, Eax
@@ -286,7 +287,7 @@ _MemSet EndP
 
 ## strcmp
 
-```
+```asm
 _StrCmp Proc X:Ptr Byte, Y:Ptr Byte
 	Xor Ecx, Ecx
 	@@:
@@ -316,7 +317,7 @@ _StrCmp EndP
 
 ## strset
 
-```
+```asm
 _StrSet Proc MyStr:Ptr Byte, Value:Byte, n:DWord
     Mov Esi, [MyStr]    ; return original destination pointer
 

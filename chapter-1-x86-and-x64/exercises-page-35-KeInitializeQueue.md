@@ -2,7 +2,7 @@
 
 _Decompile the following kernel routine in Windows:_
 
-```
+```asm
 .text:000000014002BB40 ; =============== S U B R O U T I N E =======================================
 .text:000000014002BB40
 .text:000000014002BB40
@@ -40,7 +40,7 @@ _Decompile the following kernel routine in Windows:_
 .text:000000014002BB93 KeInitializeQueue endp
 ```
 
-```
+```c
 ntdll!_KQUEUE
    +0x000 Header           : _DISPATCHER_HEADER
    +0x018 EntryListHead    : _LIST_ENTRY
@@ -110,7 +110,7 @@ ntdll!_DISPATCHER_HEADER
    +0x008 WaitListHead     : _LIST_ENTRY
 ```
 
-```
+```c
 VOID KeInitializeQueue(PRKQUEUE Queue, ULONG Count) {
 
     LIST_ENTRY Entry, Head; // sub     rsp, 28h
