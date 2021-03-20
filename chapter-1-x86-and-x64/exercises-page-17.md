@@ -24,6 +24,7 @@ _Why can’t you just do MOV EAX, EIP?_
     - The EIP register cannot be accessed directly by software; it is controlled implicitly by control-transfer instructions (such as JMP, Jcc, CALL, and RET), interrupts, and exceptions. The only way to read the EIP register is to execute a CALL instruction and then read the value of the return instruction pointer from the procedure stack. The EIP register can be loaded indirectly by modifying the value of a return instruction pointer on the procedure stack and executing a return instruction (RET or IRET).
 
 _Come up with at least two code sequences to set EIP to 0xAABBCCDD_
+
 1. `call 0xAABBCCDD`
 2. `jmp 0xAABBCCDD`
 3. `push 0xAABBCCDD then ret`

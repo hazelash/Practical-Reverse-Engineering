@@ -17,6 +17,7 @@ _This function uses a combination SCAS and STOS to do its work. First, explain w
 ```
 
 _What is the type of [EBP+8] and [EBP+C]?_
+
 - type of [EBP+8] = char*
 - type of [EBP+C] = char
 - [ebp+8] is copied to EDI to be prepared for the `rep stosb`, this indicates that [ebp+8] is the destination string that will be used in memset(), and the [ebp+0xC] is the value we want to initialize the array of bytes to.
